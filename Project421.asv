@@ -1,4 +1,4 @@
-% Project EBME 421
+%% Project EBME 421
 % map182 ngm44 ixy40
 
 % Cortex model Richardson
@@ -33,7 +33,6 @@ for i=-100:0.01:100 %how do i evaluate from negative inf to inf??
     end
     %U(i)= 
 end
-
 
 
 
