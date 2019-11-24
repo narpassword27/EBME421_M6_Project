@@ -1,0 +1,37 @@
+create axon
+access axon
+
+insert hh
+insert extracellular
+
+axon.L=100000
+axon.nseg=21
+axon.diam=10
+axon.Ra=100
+
+objref pfile, pvector, Ifile, Ivec
+
+pfile=new File("potentials.txt")
+Ifile=new File("squarepulse.txt")
+
+pfile.ropen()
+pvector=new Vector(51)
+pvector.scanf(pfile)
+
+Ifile.ropen()
+Ivec=new Vector()
+Ivec.scanf(Ifile)
+
+pfile.close()
+Ifile.close()
+
+objref stimvec[21]
+fract_dist_of_first_segment=(axon.L/nseg/2)/axon.L
+inter_segment_fract_length=1/nseg
+
+objref vmvec
+vmvec = new Vector()
+vmvec.record(&axon.v(0.5))
+amp=0
+
+load_file("stim.hoc")

@@ -1,0 +1,12 @@
+proc stim(){
+
+	while(vmvec.max()<=0) {
+	printf("amp=%0.0f\n",amp)
+		amp = amp + 0.1
+		for i=0,20{
+			stimvec[i]=Ivec.c.mul(pvector.x[i]).mul(amp)
+			stimvec[i].play(&axon.e_extracellular(fract_dist_of_first_segment+i*inter_segment_fract_length),dt)
+		}
+		run()
+	}
+}
