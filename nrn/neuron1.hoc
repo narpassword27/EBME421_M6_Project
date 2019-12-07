@@ -7,7 +7,7 @@ insert hh
 insert extracellular
 
 //Axon variables
-axon.L=10000
+axon.L=10
 axon.nseg=21
 axon.diam=10
 axon.Ra=100

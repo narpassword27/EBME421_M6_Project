@@ -29,12 +29,12 @@ zlabel('Transmembrane Current (nA)')
 
 
 
-d = 5; %cm
+d = 0.01; %cm
 L = 10000; %cm
 nseg = 21;
-rho = 1.79; %S/m CITE:https://www.researchgate.net/publication/14003644_The_electrical_conductivity_of_human_cerebrospinal_fluid_at_body_temperature
+sigma = 1.79; %S/m CITE:https://www.researchgate.net/publication/14003644_The_electrical_conductivity_of_human_cerebrospinal_fluid_at_body_temperature
 
-V2 = maxwell(d, I, t, nseg, L, rho);
+V2 = maxwell(d, I, t, nseg, L, sigma);
 
 figure(3); 	
 ribbon(t,V2.',0.5)
@@ -46,7 +46,7 @@ ylabel('Time (ms)')
 zlabel('Surface Potential (mv)')
 
 
-
+e = eFieldFinder(I, t, nseg, sigma);
 
 
 
