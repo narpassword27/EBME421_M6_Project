@@ -7,19 +7,19 @@ insert hh
 insert extracellular
 
 //Axon variables
-axon.L=10
-axon.nseg=21
+axon.L=1000
+axon.nseg=201
 axon.diam=10
 axon.Ra=100
 
 //Axon 1 is stimulated using current injection
 objectvar stim
-axon stim = new IClamp(0.00001)
+axon stim = new IClamp(0)
 stim.del=5
 stim.dur=2
 stim.amp=10
 
-tstop=50
+tstop=15
 
 //Create list of vectors.
 //One list Each vector will record the

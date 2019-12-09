@@ -3,25 +3,33 @@
 
 clc
 clear all
-close all
+%close all
 
 [I,V,t] = runFirstNeuron();
 
 
 figure(1); 	
+%an = animatedline(t,V.');
+
 ribbon(t,V.',0.5)
-colormap(lines)    % change color map
+colormap(summer)    % change color map
 shading interp    % interpolate colors across lines and faces
-title('\bf V(t) in each Segment')
+title('\bf V(t) in each segment of first axon')
 xlabel('Segment') 
 ylabel('Time (ms)')
 zlabel('Surface Potential (mv)')
 
+
+
+
+
+
+
 figure(2);
 ribbon(t,I.',0.5)
-colormap(lines)    % change color map
+colormap(winter)    % change color map
 shading interp    % interpolate colors across lines and faces
-title('\bf I(t) in each Segment')
+title('\bf I(t) in each segment of first axon')
 xlabel('Segment') 
 ylabel('Time (ms)')
 zlabel('Transmembrane Current (nA)')
@@ -29,24 +37,39 @@ zlabel('Transmembrane Current (nA)')
 
 
 
-d = 0.01; %cm
-L = 10000; %cm
-nseg = 21;
-sigma = 1.79; %S/m CITE:https://www.researchgate.net/publication/14003644_The_electrical_conductivity_of_human_cerebrospinal_fluid_at_body_temperature
-
-V2 = maxwell(d, I, t, nseg, L, sigma);
+[F2,Fc2,d2,V2,t2] = runSecondNeuron(I, t);
 
 figure(3); 	
 ribbon(t,V2.',0.5)
-colormap(lines)    % change color map
+colormap(spring)    % change color map
 shading interp    % interpolate colors across lines and faces
-title('\bf Surface potentials on Second Axon')
+title('\bf Surface potentials on second axon for sucessful activation')
 xlabel('Segment') 
 ylabel('Time (ms)')
 zlabel('Surface Potential (mv)')
 
+figure(4); 	
+ribbon(t,fliplr(F2.'),0.5)
+colormap(autumn)    % change color map
+shading interp    % interpolate colors across lines and faces
+title('\bf Surface potentials applied to second axon for varied distance')
+xlabel('Distance (um)')
+ylabel('Time (ms)')
+yticklabels({'0','5','10','15'})
+zlabel('Surface Potential (mv)')
 
-e = eFieldFinder(I, t, nseg, sigma);
+
+
+
+figure(5);
+plot(fliplr(Fc2))
+title('\bf Decay of applied surface potential to second axon for varied distance ')
+xlabel('Distance (um)') 
+ylabel('Voltage (mV)')
+
+
+
+%e = eFieldFinder(I, t, nseg, sigma);
 
 
 

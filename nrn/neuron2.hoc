@@ -1,0 +1,77 @@
+//Create
+create axon
+access axon
+
+//Insert desired mechanisms
+insert hh
+insert extracellular
+
+//Axon variables
+axon.L=1000
+axon.nseg=201
+axon.diam=10
+axon.Ra=100
+tstop=15
+
+//Read Vm(x,t) matrix from file
+objref f1
+f1 = new File()
+f1.ropen("nrn/maxwellV.txt")
+
+objref m_Vm_file, l_Vm, tmpVec, v_t
+m_Vm_file = new Matrix(202,601)
+m_Vm_file.scanf(f1, 202, 601)
+
+
+k=0
+l_Vm = new List()
+v_t = m_Vm_file.getrow(0)
+
+for i=1,m_Vm_file.nrow-1 {
+    tmpVec = new Vector()
+    tmpVec = m_Vm_file.getrow(i)
+    l_Vm.append(tmpVec)
+    l_Vm.object(i-1).play(&axon.e_extracellular((i)/201), v_t)
+    //tmpVec.play(&axon.e_extracellular((i)/201), v_t)
+}
+// it's Matrix.[rowNumber][columnNumber]
+// where rows are segments
+// and columns are tsteps
+
+
+
+//Create list of vectors.
+//One list Each vector will record the
+//  trans-membrane current for one segment
+objref veclist, tmpvecV
+veclist = new List()
+for i = 0,nseg-1{
+    proportion = (i+1) / axon.nseg
+    tmpvecV = new Vector()
+    tmpvecV.record(&axon.v(proportion))
+    veclist.append(tmpvecV)
+}
+
+run()
+
+
+objref f2
+f2 = new File()
+//If voltage halfway along the axon spikes above 0 mV
+if(veclist.object((nseg-1)/2).max() > 0){
+    
+    //Write list of voltage vectors to file
+    f2.wopen("nrn/neuron2ResultV.txt")
+    for i = 0,nseg-1{
+        veclist.object(i).printf(f2,"%e\t")
+    }
+    f2.close()
+}
+
+//Either way, append v(.5) to trials file
+f2.aopen("nrn/neuron2TrialsV.txt")
+veclist.object(0).printf(f2,"%e\t")
+f2.close()
+
+
+
